@@ -42,18 +42,18 @@ Only expressions can be executed; you can't type things started by hyphens (such
 
 ### About shell
 
-The Erlang shell has a built-in line editor. The `^` symbol means *Control*.
+The Erlang shell has a built-in line editor.
 
-	Command			Description
-	----------------------------------------------
-	Ctrl+A			Beginning of line
-	Ctrl+E			End of line
-	Ctrl+F or →     Forward character
-	Ctrl+B or  ←   Backward character
-	Ctrl+P or ↑     Previous line
-	Ctrl+N or ↓     Next line
-	Ctrl+T			Switch last two characters
-	Tab				Expand module or function name
+	Command					Description
+	--------------------------------------------------------
+	Ctrl+A					Beginning of line
+	Ctrl+E					End of line
+	Ctrl+F or right arrow   Forward character
+	Ctrl+B or left arrow   	Backward character
+	Ctrl+P or up arrow     	Previous line
+	Ctrl+N or down arrow    Next line
+	Ctrl+T					Switch last two characters
+	Tab						Expand module or function name
 
 When isn't responding, type `Ctrl+G`; you can then type some commands. Type `h` to view the available options.
 	
