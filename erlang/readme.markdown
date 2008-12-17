@@ -1,7 +1,8 @@
 Erlang
 ======
 
-*This notes were taken from the book [Programming Erlang, Software for a concurrent world](), by Joe Armstrong, I'm currently reading.*
+*This notes were taken from the book [Programming Erlang, Software for a concurrent world](http://www.pragprog.com/titles/jaerlang/programming-erlang),
+by Joe Armstrong, I'm currently reading.*
 
 Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system.
 The language uses message exchanging to interact with parallel processes without creating locks or synchronization methods.
