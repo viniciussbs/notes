@@ -46,14 +46,14 @@ The Erlang shell has a built-in line editor.
 
 	Command					Description
 	--------------------------------------------------------
-	Ctrl+A					Beginning of line
-	Ctrl+E					End of line
+	Ctrl+A                  Beginning of line
+	Ctrl+E                  End of line
 	Ctrl+F or right arrow   Forward character
-	Ctrl+B or left arrow   	Backward character
-	Ctrl+P or up arrow     	Previous line
+	Ctrl+B or left arrow    Backward character
+	Ctrl+P or up arrow      Previous line
 	Ctrl+N or down arrow    Next line
-	Ctrl+T					Switch last two characters
-	Tab						Expand module or function name
+	Ctrl+T                  Switch last two characters
+	Tab                     Expand module or function name
 
 When isn't responding, type `Ctrl+G`; you can then type some commands. Type `h` to view the available options.
 	
@@ -116,3 +116,56 @@ The `=` sign is a *pattern matching* operator, which behaves like assignment whe
 
 The *scope* of a variable is the place where it was set. If `X` is used inside a function, then this function is its scope. If `X` occurs
 in different function, the all the values of `X` are different.
+
+### Pattern Matching
+
+In Erlang, `=` denotes a *pattern matching*; `Lhs = Rhs` means: evaluate the right side (`Rhs`) and then match the result against
+the pattern on the left side (`Lhs`).
+
+A variable, such as `X`, is a simple form of pattern. The first time a variable is assigned, as in `X = SomeExpression`, Erlang binds
+`X` to the value of `SomeExpression`, so the statement becomes valid. The expression `X = AnotherExpression` will succeed only if
+`SomeExpression` and `AnotherExpression` are identical.
+
+	1> X = (2+4).
+	6
+	2> Y = 10.
+	10
+	3> X = 6.
+	6
+	4> X = Y.
+	** exception error: no match of right hand side value 10
+	5> Y = 10.
+	10
+	6> Y = 4.
+	** exception error: no match of right hand side value 4
+	7> Y = X.
+	** exception error: no match of right hand side value 6
+	
+The expression `2+4` was assigned to `X`, and the answer was `6`. Then `10` was assigned to `Y`. When we try to evaluate `X = Y`, 
+the match fails and then error message is printed.
+
+Floating-Point Numbers
+----------------------
+
+	1> 5/3.
+	1.6666666666666667
+	2> 5 div 2.
+	2
+	3> 5 rem 3.
+	2
+	4> 4/2.
+	2.0
+	5> Pi = 3.14159.
+	3.14159
+	6> R = 5.
+	5
+	7> Pi * R * R.
+	78.53975
+
+On Erlang, the operator `/` always returns a float. Floating-point numbers must have a decimal point followed by at least one digit. The
+expressions `N div M` and `N rem M` are used for integer division and remainder.
+
+Atoms
+-----
+
+Atoms are constants that represents non-numerical values like `true`, `false`, `ok` and `error`; they're similar to Ruby's symbols.
