@@ -168,4 +168,38 @@ expressions `N div M` and `N rem M` are used for integer division and remainder.
 Atoms
 -----
 
-Atoms are constants that represents non-numerical values like `true`, `false`, `ok` and `error`; they're similar to Ruby's symbols.
+*Atoms* are constants that represents non-numerical values like `true`, `false`, `ok` and `error`; they're similar to Ruby's symbols. 
+They're started by lowercase letters, followed by alphanumeric characters, underscore or at sign, like `december`, `test123`, `some@host`,
+`a_long_name`. Atoms can also be quoted with a single quotation mark; then you can create atoms like `'Name'`, `'+'`, `'*'`,
+`'an atom with spaces'`, `'name'`.
+
+The value of an atom is the atom itself, which will be printed on the shell.
+
+	1> name.
+	name
+	2> name = 'name'.
+	name
+
+Tuples
+------
+
+*Tuples* are immutable lists. They're used to group a fixed number of items into a single entity. Tuples doesn't have keys, so is 
+recommended to use an atom as the first element, describing the tuple.
+
+	P = {person,
+			{name, "Nando Vieira"}
+			{blog, "http://simplesideias.com.br"}}.
+
+### Extracting values from tuples
+
+To extract values from tuples you need to do pattern matching. Let's extract the name and blog values.
+
+	{_, {_, Name}, {_, Blog}} = P.
+	
+The `_` symbol is called *anonymous variable*; you can have several occurrences of it in the same pattern.
+
+Lists
+-----
+
+*Lists* can store variable number of items. The first element of a list is called *head*. If you remove the *head* from the list, you 
+have the *tail* of the list; that is, the remaining items.
