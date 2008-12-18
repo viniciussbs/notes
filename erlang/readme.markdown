@@ -44,7 +44,7 @@ Only expressions can be executed; you can't type things started by hyphens (such
 
 The Erlang shell has a built-in line editor.
 
-	Command					Description
+	Command                 Description
 	--------------------------------------------------------
 	Ctrl+A                  Beginning of line
 	Ctrl+E                  End of line
