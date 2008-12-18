@@ -1,7 +1,7 @@
 Erlang
 ======
 
-*This notes were taken from the book [Programming Erlang, Software for a concurrent world](http://www.pragprog.com/titles/jaerlang/programming-erlang),
+*These notes were taken from the book [Programming Erlang, Software for a concurrent world](http://www.pragprog.com/titles/jaerlang/programming-erlang),
 by Joe Armstrong, I'm currently reading.*
 
 Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system.
@@ -71,7 +71,7 @@ When isn't responding, type `Ctrl+G`; you can then type some commands. Type `h` 
 	  j                 - list all jobs
 	  s [shell]         - start local shell
 	  r [node [shell]]  - start remote shell
-	  q        			- quit erlang
+	  q                 - quit erlang
 	  ? | h             - this message
 	
 Simple expressions
