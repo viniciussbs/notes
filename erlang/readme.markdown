@@ -202,4 +202,31 @@ Lists
 -----
 
 *Lists* can store variable number of items. The first element of a list is called *head*. If you remove the *head* from the list, you 
-have the *tail* of the list; that is, the remaining items.
+have the *tail* of the list; that is, the remaining items. Here's what a list looks like:
+
+	ThingsToBuy = [{apples, 10}, {pears, 6}, {milk, 3}].
+
+If `T` (tail) is a list, then `H|T` (head and tail) is also a list. The vertical bar `|` separates the head from its tail. When creating
+lists like `[...|T]`, make sure you create *properly formed* lists; that is, `T` needs to be a list. Otherwise you'll have a
+*improper list* that won't work for most library functions.
+
+You can add more elements to the list with the syntax `[E1, E2, ..., En|T]`.
+
+	ThingsToBuy = [{apples, 10}, {pears, 6}, {milk, 3}].
+	ThingsToBuy1 = [{oranges, 12}, {newspaper, 1}|ThingsToBuy]
+
+### Extracting elements from a list
+
+As always, you need to do some pattern matching operation.
+	
+	ThingsToBuy = [{apples, 10}, {pears, 6}, {milk, 3}].
+	[Apples|RemainingThingsToBuy] = ThingsToBuy.
+
+The matching above will bind `Apples => {apples, 10}` and `RemainingThingsToBuy => [{milk, 3}, {pears, 6}]`.
+
+You can extract several values at once and set a new variable with the remaining items.
+
+	ThingsToBuy = [{apples, 10}, {pears, 6}, {milk, 3}, {newspaper, 1}].
+	[Buy1, Buy2|RemainingThingsToBuy] = ThingsToBuy.
+	
+Now, `Buy1 => {apples, 10}`, `Buy2 => {pears, 6}` and `RemainingThingsToBuy => [{milk, 3}, {newspaper, 1}]`.
