@@ -375,11 +375,8 @@ The function `cost` is composed by 5 clauses. Let's test it:
 	4> shop:cost(xbox360).
 	** exception error: no function clause matching shop:cost(xbox360)
 
-Now, we need to calculate the total price from a given list.
-
-	Buy = [{apples, 3}, {newspaper, 4}, {milk, 5}].
-
-Here's how you can create the `total` function. Add the code below to the `shop.erl` file.
+Now, we need to calculate the total price from a given list. Here's how you can create the `total` function. Add the code below to the 
+`shop.erl` file.
 
 	-module (shop).
 	-export ([cost/1]).
@@ -396,9 +393,9 @@ Here's how you can create the `total` function. Add the code below to the `shop.
 	  cost(Product) * Quantity + total(T).
 
 The `total` function expects a list as argument; if an empty list is provided, then we return `0`; otherwise we retrieve the first
-product tuple, doing some basic calculation (`cost(Product) * Quantity`) and summing the total from the remaining items (tail).
+product tuple, do some basic calculation (`cost(Product) * Quantity`) and sum the total from the remaining items (tail).
 
-Recompile the `shop` module and calculate that previous list:
+Recompile the `shop` module and calculate a shopping list:
 
 	1> c(shop).
 	{ok,shop}
@@ -406,12 +403,6 @@ Recompile the `shop` module and calculate that previous list:
 	[{apples,3},{newspaper,4},{milk,5}]
 	3> shop:total(Buy).
 	29
-
-So the list `Buy` has the total `29`:
-
-* 2 apples * 4 = 8
-* 1 newspaper * 3 = 3
-* 3 milks * 6 = 18
 
 ### Functions with the same name and different arity
 
