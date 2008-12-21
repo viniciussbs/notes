@@ -15,8 +15,8 @@ Erlang is about:
 * Concurrency
 * Distribution
 * Fault tolerance
-* Function programming
-* Speeding up application on multi-core CPUs
+* Functional programming
+* Speeding up applications on multi-core CPUs
 
 Getting Started
 ---------------
@@ -300,7 +300,7 @@ notation defines the function name and how many arguments are expected (*arity*)
 use `-compile (export_all)`.
 
 The `area` keyword defines the function name. In the example above we have two `area` *clauses*; think of it as 
-[*method overriding*](http://en.wikipedia.org/wiki/Method_overriding_(programming)) based on the pattern matching. Clauses must be 
+[method overriding](http://en.wikipedia.org/wiki/Method_overriding_(programming)) based on pattern matching. Clauses must be 
 separated by semicolons (`;`), and the final clause must be terminated by a dot-whitespace.
 
 Let's try it out. From the shell, execute the command `c(geometry)`. You'll probably receive this error:
@@ -345,4 +345,91 @@ Let's extend our module by adding a square to our geometry module.
 	area({square, X})                 -> X * X.
 
 The order of the clauses doesn't matter; this is possible only because the patterns are mutually exclusive. Remember to set the correct
-order you expect to be executed.
+order you expect to be executed when you cannot create exclusive patterns.
+
+### Back to Shopping
+
+Let's go back to the shopping list below:
+
+	[{oranges,4}, {newspaper,1}, {apples,10}, {pears,6} ,{milk,3}]
+
+Suppose we'd like to calculate total price. Create the module `shop` for this.
+
+	-module (shop).
+	-export ([cost/1]).
+
+	cost(oranges)     -> 2;
+	cost(newspaper)   -> 3;
+	cost(apples)      -> 4;
+	cost(pears)       -> 5;
+	cost(milk)        -> 6.
+
+The function `cost` is composed by 5 clauses. Let's test it:
+
+	1> c(shop).
+	{ok,shop}
+	2> shop:cost(oranges).
+	5
+	3> shop:cost(apples).
+	2
+	4> shop:cost(xbox360).
+	** exception error: no function clause matching shop:cost(xbox360)
+
+Now, we need to calculate the total price from a given list.
+
+	Buy = [{apples, 3}, {newspaper, 4}, {milk, 5}].
+
+Here's how you can create the `total` function. Add the code below to the `shop.erl` file.
+
+	-module (shop).
+	-export ([cost/1]).
+	-export ([total/1]).
+
+	cost(oranges)     -> 2;
+	cost(newspaper)   -> 3;
+	cost(apples)      -> 4;
+	cost(pears)       -> 5;
+	cost(milk)        -> 6.
+
+	total([])         -> 0;
+	total([{Product, Quantity}|T]) ->
+	  cost(Product) * Quantity + total(T).
+
+The `total` function expects a list as argument; if an empty list is provided, then we return `0`; otherwise we retrieve the first
+product tuple, doing some basic calculation (`cost(Product) * Quantity`) and summing the total from the remaining items (tail).
+
+Recompile the `shop` module and calculate that previous list:
+
+	1> c(shop).
+	{ok,shop}
+	2> Buy = [{apples, 2}, {newspaper, 1}, {milk, 3}].
+	[{apples,3},{newspaper,4},{milk,5}]
+	3> shop:total(Buy).
+	29
+
+So the list `Buy` has the total `29`:
+
+* 2 apples * 4 = 8
+* 1 newspaper * 3 = 3
+* 3 milks * 6 = 18
+
+### Functions with the same name and different arity
+
+The *arity* of a function is the number of arguments that the function expects. In Erlang, function with the same name but different
+arity are *entirely* different. This is what Erlang do to create *auxiliary functions*. Create a new file named `misc.erl`.
+
+	-module (misc).
+	-export ([sum/1]).
+
+	% main function
+	sum(L)  -> sum(L, 0).
+
+	% auxiliary functions
+	sum([], N)      -> N;
+	sum([H|T], N)   -> sum(T, H+N).
+
+Note that we are exporting only the function `sum(L)`.
+
+### Funs
+
+*To be written*
