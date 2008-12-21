@@ -1,13 +1,14 @@
 Erlang
 ======
 
-*These notes were taken from the book [Programming Erlang, Software for a concurrent world](http://www.pragprog.com/titles/jaerlang/programming-erlang),
-by Joe Armstrong, I'm currently reading.*
+*These notes were taken from the book 
+[Programming Erlang, Software for a concurrent world](http://www.pragprog.com/titles/jaerlang/programming-erlang), by Joe Armstrong, 
+I'm currently reading.*
 
 Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system.
 The language uses message exchanging to interact with parallel processes without creating locks or synchronization methods.
-A simple Erlang program can create thousands to millions of lightweight processes that can be executed on single or multi-core processors,
-and even on a network of processors.
+A simple Erlang program can create thousands to millions of lightweight processes that can be executed on single or multi-core 
+processors, and even on a network of processors.
 
 Erlang is about:
 
@@ -74,7 +75,18 @@ When isn't responding, type `Ctrl+G`; you can then type some commands. Type `h` 
 	  r [node [shell]]  - start remote shell
 	  q                 - quit erlang
 	  ? | h             - this message
-	
+
+To clear all variable bindings, just execute the command `f()`.
+
+	1> X = 1.
+	1
+	2> X = 2.
+	** exception error: no match of right hand side value 2
+	3> f().
+	ok
+	4> X = 2.
+	2
+
 ### Simple expressions
 
 	1> 1 + 1.
@@ -113,8 +125,8 @@ Erlang has *single assignment variables*; this means that you can set the value 
 
 The `=` sign is a *pattern matching* operator, which behaves like assignment when you have an unbound variable.
 
-The *scope* of a variable is the place where it was set. If `X` is used inside a function, then this function is its scope. If `X` occurs
-in different function, the all the values of `X` are different.
+The *scope* of a variable is the place where it was set. If `X` is used inside a function, then this function is its scope. If `X` 
+occurs in different function, the all the values of `X` are different.
 
 #### Pattern Matching
 
@@ -166,9 +178,9 @@ expressions `N div M` and `N rem M` are used for integer division and remainder.
 ### Atoms
 
 *Atoms* are constants that represents non-numerical values like `true`, `false`, `ok` and `error`; they're similar to Ruby's symbols. 
-They're started by lowercase letters, followed by alphanumeric characters, underscore or at sign, like `december`, `test123`, `some@host`,
-`a_long_name`. Atoms can also be quoted with a single quotation mark; then you can create atoms like `'Name'`, `'+'`, `'*'`,
-`'an atom with spaces'`, `'name'`.
+They're started by lowercase letters, followed by alphanumeric characters, underscore or at sign, like `december`, `test123`, 
+`some@host`, `a_long_name`. Atoms can also be quoted with a single quotation mark; then you can create atoms like `'Name'`, `'+'`,
+`'*'`, `'an atom with spaces'`, `'name'`.
 
 The value of an atom is the atom itself, which will be printed on the shell.
 
@@ -263,3 +275,74 @@ Comments in Erlang start with `%` and extend to the end of the line. There are n
 	
 Sometimes `%%` is used to comment out the code; this is recognized by Emacs and enable the automatic indentation of commented lines.
 
+Sequential Programming
+----------------------
+
+### Modules
+
+*Modules* store all the functions you write and need to be saved in `.erl` files. All modules need to be compiled to '.beam' files 
+before you can use it.
+
+Beam is short for Bogdan’s Erlang Abstract Machine; Bogumil (Bogdan) Hausman wrote an Erlang compiler in 1993 and designed a new 
+instruction set for Erlang.
+
+Create a new file `geometry.erl`.
+
+	-module (geometry).
+	-export ([area/1]).
+	
+	area({rectangle, Width, Height})  -> Width * Height;
+	area({circle, Radius})            -> 3.14159 * Radius * Radius. 
+	
+	
+The keyword `module` defines a new module named `geometry`. The `export` clause says what functions are being exported; the `[area/1]` 
+notation defines the function name and how many arguments are expected (*arity*). If you want to export all module functions, you can 
+use `-compile (export_all)`.
+
+The `area` keyword defines the function name. In the example above we have two `area` *clauses*; think of it as 
+[*method overriding*](http://en.wikipedia.org/wiki/Method_overriding_(programming)) based on the pattern matching. Clauses must be 
+separated by semicolons (`;`), and the final clause must be terminated by a dot-whitespace.
+
+Let's try it out. From the shell, execute the command `c(geometry)`. You'll probably receive this error:
+
+	1> c(geometry).
+	./geometry.erl:none: no such file or directory
+	error
+
+This error will occur if you're trying to compile a module but the file is not present; you must be in the wrong directory or the file 
+hasn't been created yet. Check the current directory with `pwd()`.
+
+	1> pwd().
+	/Users/fnando
+	ok
+   
+You can quit the shell and go to the source directory, or you can execute `cd(<path>)`.
+
+	2> cd("/Users/fnando/Sites/github/notes/erlang/code").
+	/Users/fnando/Sites/github/notes/erlang/code
+	ok
+
+Try to compile the module once again.
+
+	3> c(geometry).
+	{ok,geometry}
+
+The compiler has returned `{ok, geometry}`, which means that the compiler has succeed and the module `geometry` has been compiled and
+loaded. You can now execute the functions you created:
+
+	4> geometry:area({rectangle, 10, 5}).
+	50
+	5> geometry:area({circle, 6}).       
+	113.09723999999999
+
+Let's extend our module by adding a square to our geometry module.
+
+	-module (geometry).
+	-export ([area/1]).
+
+	area({rectangle, Width, Height})  -> Width * Height;
+	area({circle, Radius})            -> 3.14159 * Radius * Radius;
+	area({square, X})                 -> X * X.
+
+The order of the clauses doesn't matter; this is possible only because the patterns are mutually exclusive. Remember to set the correct
+order you expect to be executed.
