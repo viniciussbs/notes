@@ -17,8 +17,10 @@ Erlang is about:
 * Function programming
 * Speeding up application on multi-core CPUs
 
-Installing (Mac OS X)
----------------------
+Getting Started
+---------------
+
+### Installing (Mac OS X)
 
 Make sure you have XCode installed. Download the most recent source from <http://www.erlang.org/download.html>.
 
@@ -29,8 +31,7 @@ Make sure you have XCode installed. Download the most recent source from <http:/
 	make
 	sudo make install
 
-Starting the shell
-------------------
+### Starting the shell
 
 Codes can be typed right into the *shell*; to start it, just execute the command `erl`.
 
@@ -40,7 +41,7 @@ Codes can be typed right into the *shell*; to start it, just execute the command
 
 Only expressions can be executed; you can't type things started by hyphens (such as `-module` or `-export`).
 
-### About shell
+#### About shell
 
 The Erlang shell has a built-in line editor.
 
@@ -74,8 +75,7 @@ When isn't responding, type `Ctrl+G`; you can then type some commands. Type `h` 
 	  q                 - quit erlang
 	  ? | h             - this message
 	
-Simple expressions
-------------------
+### Simple expressions
 
 	1> 1 + 1.
 	2
@@ -95,8 +95,7 @@ Integers using base 16 and base 32 notation:
 	4> 16#cafe * 32#sugar.
 	1577682511434
 
-Variables
----------
+### Variables
 
 Variables must start with an uppercase letter.
 
@@ -117,7 +116,7 @@ The `=` sign is a *pattern matching* operator, which behaves like assignment whe
 The *scope* of a variable is the place where it was set. If `X` is used inside a function, then this function is its scope. If `X` occurs
 in different function, the all the values of `X` are different.
 
-### Pattern Matching
+#### Pattern Matching
 
 In Erlang, `=` denotes a *pattern matching*; `Lhs = Rhs` means: evaluate the right side (`Rhs`) and then match the result against
 the pattern on the left side (`Lhs`).
@@ -144,8 +143,7 @@ A variable, such as `X`, is a simple form of pattern. The first time a variable 
 The expression `2+4` was assigned to `X`, and the answer was `6`. Then `10` was assigned to `Y`. When we try to evaluate `X = Y`, 
 the match fails and then error message is printed.
 
-Floating-Point Numbers
-----------------------
+### Floating-Point Numbers
 
 	1> 5/3.
 	1.6666666666666667
@@ -165,8 +163,7 @@ Floating-Point Numbers
 On Erlang, the operator `/` always returns a float. Floating-point numbers must have a decimal point followed by at least one digit. The
 expressions `N div M` and `N rem M` are used for integer division and remainder.
 
-Atoms
------
+### Atoms
 
 *Atoms* are constants that represents non-numerical values like `true`, `false`, `ok` and `error`; they're similar to Ruby's symbols. 
 They're started by lowercase letters, followed by alphanumeric characters, underscore or at sign, like `december`, `test123`, `some@host`,
@@ -180,8 +177,7 @@ The value of an atom is the atom itself, which will be printed on the shell.
 	2> name = 'name'.
 	name
 
-Tuples
-------
+### Tuples
 
 *Tuples* are immutable lists. They're used to group a fixed number of items into a single entity. Tuples doesn't have keys, so is 
 recommended to use an atom as the first element, describing the tuple.
@@ -190,7 +186,7 @@ recommended to use an atom as the first element, describing the tuple.
 			{name, "Nando Vieira"}
 			{blog, "http://simplesideias.com.br"}}.
 
-### Extracting values from tuples
+#### Extracting values from tuples
 
 To extract values from tuples you need to do pattern matching. Let's extract the name and blog values.
 
@@ -198,8 +194,7 @@ To extract values from tuples you need to do pattern matching. Let's extract the
 	
 The `_` symbol is called *anonymous variable*; you can have several occurrences of it in the same pattern.
 
-Lists
------
+### Lists
 
 *Lists* can store variable number of items. The first element of a list is called *head*. If you remove the *head* from the list, you 
 have the *tail* of the list; that is, the remaining items. Here's what a list looks like:
@@ -215,7 +210,7 @@ You can add more elements to the list with the syntax `[E1, E2, ..., En|T]`.
 	ThingsToBuy = [{apples, 10}, {pears, 6}, {milk, 3}].
 	ThingsToBuy1 = [{oranges, 12}, {newspaper, 1}|ThingsToBuy]
 
-### Extracting elements from a list
+#### Extracting elements from a list
 
 As always, you need to do some pattern matching operation.
 	
@@ -230,3 +225,31 @@ You can extract several values at once and set a new variable with the remaining
 	[Buy1, Buy2|RemainingThingsToBuy] = ThingsToBuy.
 	
 Now, `Buy1 => {apples, 10}`, `Buy2 => {pears, 6}` and `RemainingThingsToBuy => [{milk, 3}, {newspaper, 1}]`.
+
+### Strings
+
+*Strings* are just a list of integers quoted with `"`. Here's a sample:
+
+	1> Name = "Nando Vieira".
+	"Nando Vieira"
+	2> NickName = [102, 110, 97, 110, 100, 111].
+	"fnando"
+	3> [1, 2, 3].
+	[1,2,3]
+
+The third expression was printed as it is because `1`, `2` and `3` are not printable characters. To know which integer represents a 
+character, just use the `$` symbol like in `$a`.
+
+	1> $a.
+	97
+	2> $A.
+	65
+
+If you mix printable with non-printable characters, Erlang won't convert the list.
+
+	1> [$a, 1].
+	[97,1]
+
+**NOTE:** In Erlang, remember that single quoted strings are just *atoms*; so `'a'` is not `"a"`.
+
+You can even use a different character set in strings. The Swedish name `Håkan` will be encoded as `[72,229,107,97,110]`.
