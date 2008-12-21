@@ -253,3 +253,13 @@ If you mix printable with non-printable characters, Erlang won't convert the lis
 **NOTE:** In Erlang, remember that single quoted strings are just *atoms*; so `'a'` is not `"a"`.
 
 You can even use a different character set in strings. The Swedish name `Håkan` will be encoded as `[72,229,107,97,110]`.
+
+### Comments
+
+Comments in Erlang start with `%` and extend to the end of the line. There are no block comments.
+
+	% this is just comment
+	X = "Some string".
+	
+Sometimes `%%` is used to comment out the code; this is recognized by Emacs and enable the automatic indentation of commented lines.
+
