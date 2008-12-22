@@ -406,8 +406,8 @@ Recompile the `shop` module and calculate a shopping list:
 
 ### Functions with the same name and different arity
 
-The *arity* of a function is the number of arguments that the function expects. In Erlang, function with the same name but different
-arity are *entirely* different. This is what Erlang do to create *auxiliary functions*. Create a new file named `misc.erl`.
+The *arity* of a function is the number of arguments that the function expects. In Erlang, functions with the same name but different
+arity are *entirely* different. This is what Erlang programmers do to create *auxiliary functions*. Create a new file named `misc.erl`.
 
 	-module (misc).
 	-export ([sum/1]).
@@ -422,5 +422,56 @@ arity are *entirely* different. This is what Erlang do to create *auxiliary func
 Note that we are exporting only the function `sum(L)`.
 
 ### Funs
+
+*Funs* are just anonymous functions.
+
+	1> Double = fun(X) -> 2*X end.
+	#Fun<erl_eval.6.13229925>
+	2> Double(3).
+	6
+	3> Double().
+	** exception error: interpreted function with arity 1 called with no arguments
+
+They can have any number of arguments.
+
+	4> UserInfo = fun(Name, Age) -> io:format("~s has ~p years-old~n", [Name, Age]) end.
+	#Fun<erl_eval.12.113037538>
+	5> UserInfo("fnando", 29).
+	fnando has 29 years-old
+	ok
+
+They can have multiple clauses.
+
+	6> Temp = 	fun({c, C}) -> {f, 32 + C*9/5};
+	6>			   ({f, F}) -> {c, (F-32)*5/9}
+	6>			end.
+	7> Temp({c, 33}).  % from C to F
+	8> Temp({f, 115}). % from F to C
+
+Functions can accept funs as arguments or return funs as result. They're called *higher-order functions*.
+
+#### Functions that accept funs as arguments
+
+The standard library `lists` have many functions whose arguments are funs. Here's a example using the function `lists:map`:
+
+	1> Double = fun(N) -> N * 2 end.
+	#Fun<erl_eval.6.13229925>
+	2> lists:map(Double, [1,2,3,4,5]).
+	[2,4,6,8,10]
+
+Here's another example using the function `lists:filter`:
+
+	1> Even = fun(N) -> (N rem 2) =:= 0 end.
+	#Fun<erl_eval.6.13229925>
+	2> Even(1).
+	false
+	3> Even(2).
+	true
+	4> lists:map(Even, [1,2,3,4,5]).
+	[false,true,false,true,false]
+	5> lists:filter(Even, [1,2,3,4,5,6]).
+	[2,4,6]
+
+#### Functions that return funs
 
 *To be written*
