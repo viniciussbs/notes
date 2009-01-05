@@ -33,10 +33,8 @@ If you want to export all module functions, you can use @-compile (export_all)@.
 	-compile (export_all).
 
 The @area@ keyword defines the function name. In the example above we have two @area@ _clauses_; think of it as 
-"method overriding":http://en.wikipedia.org/wiki/Method_overriding_(programming) based on pattern matching. Clauses must be 
+"method overriding":http://rubyurl.com/7Epb based on pattern matching. Clauses must be 
 separated by semicolons (@;@), and the final clause must be terminated by a dot-whitespace.
-
-p(review). Convert "Method Overriding" link to TinyURL
 
 Let's try it out. From the shell, execute the command @c(geometry)@. You'll probably receive this error:
 
