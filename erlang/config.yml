@@ -1,0 +1,7 @@
+title: Erlang Notes
+copyright: Notes taken from Programming Erlang, by Joe Armstrong
+authors:
+  - Nando Vieira
+subject: Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system.
+keywords: erlang, functional programming, english, concurrent programming
+theme: mac_classic

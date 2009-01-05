@@ -1,0 +1,16 @@
+h2. About Erlang
+
+Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system.
+The language uses message exchanging to interact with parallel processes without creating locks or synchronization methods.
+A simple Erlang program can create thousands to millions of lightweight processes that can be executed on single or multi-core 
+processors, and even on a network of processors.
+
+Erlang was designed for programming fault-tolerant systems. It was originally developed in the Computer Science Laboratory at the Swedish Telecom company Ericsson.
+
+Erlang is about:
+
+* Concurrency
+* Distribution
+* Fault tolerance
+* Functional programming
+* Speeding up applications on multi-core CPUs

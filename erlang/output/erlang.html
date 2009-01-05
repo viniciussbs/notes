@@ -1,0 +1,731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Erlang Notes</title>
+		
+		<link rel="stylesheet" type="text/css" href="../templates/layout.css"/>
+		<link rel="stylesheet" type="text/css" href="../templates/syntax.css"/>
+		<link rel="stylesheet" type="text/css" href="../templates/user.css"/>
+		
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<meta name="author" content="Nando Vieira" />
+		<meta name="subject" content="Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system." />
+		<meta name="keywords" content="erlang, functional programming, english, concurrent programming" />
+	</head>
+
+	<body>
+		<div id="frontcover">
+			<div>
+				<h1>
+					<span class="main-title">Erlang</span> 
+					<span class="secondary-title">Notes</span>
+				</h1>
+				<p class="tagline">
+					Functional Programming // Nando Vieira
+				</p>
+			</div>
+		</div>
+		
+		<div id="imprint">
+			<div>
+				<p>
+					Notes taken from Programming Erlang, by Joe Armstrong
+				</p>
+			 
+				<p>
+					Version: 2008-12-25
+				</p>
+			</div>
+		</div>
+		
+		<div id="table_of_contents">
+			<h2>Table of Contents</h2>
+			<ul class="level2"><li><a href="#about-erlang"><span>About Erlang</span></a></li><li><a href="#getting-started"><span>Getting Started</span></a><ul class="level3"><li><a href="#installing-mac-os-x"><span>Installing (Mac </span></a><a href="#installing-mac-os-x"><span>OS X</span></a><a href="#installing-mac-os-x"><span>)</span></a></li><li><a href="#starting-the-shell"><span>Starting the shell</span></a><ul class="level4"><li><a href="#about-shell"><span>About shell</span></a></li></ul></li><li><a href="#simple-expressions"><span>Simple expressions</span></a></li><li><a href="#variables"><span>Variables</span></a><ul class="level4"><li><a href="#pattern-matching"><span>Pattern Matching</span></a></li></ul></li><li><a href="#floating-point-numbers"><span>Floating-Point Numbers</span></a></li><li><a href="#atoms"><span>Atoms</span></a></li><li><a href="#tuples"><span>Tuples</span></a><ul class="level4"><li><a href="#extracting-values-from-tuples"><span>Extracting values from tuples</span></a></li></ul></li><li><a href="#lists"><span>Lists</span></a><ul class="level4"><li><a href="#extracting-elements-from-a-list"><span>Extracting elements from a list</span></a></li></ul></li><li><a href="#strings"><span>Strings</span></a></li><li><a href="#comments"><span>Comments</span></a></li></ul></li><li><a href="#sequential-programming"><span>Sequential Programming</span></a><ul class="level3"><li><a href="#modules"><span>Modules</span></a></li><li><a href="#back-to-shopping"><span>Back to Shopping</span></a></li><li><a href="#functions-with-the-same-name-and-different-arity"><span>Functions with the same name and different arity</span></a></li><li><a href="#funs"><span>Funs</span></a><ul class="level4"><li><a href="#functions-that-accept-funs-as-arguments"><span>Functions that accept funs as arguments</span></a></li><li><a href="#functions-that-return-funs"><span>Functions that return funs</span></a></li></ul></li></ul></li></ul>
+		</div>
+		
+		<div id="chapters">
+			<div class="chapter"><h2 id="about-erlang">About Erlang</h2>
+
+
+	<p>Erlang is a functional language where the concurrency is tied to the language itself, and not to the operating system.
+The language uses message exchanging to interact with parallel processes without creating locks or synchronization methods.
+A simple Erlang program can create thousands to millions of lightweight processes that can be executed on single or multi-core 
+processors, and even on a network of processors.</p>
+
+
+	<p>Erlang was designed for programming fault-tolerant systems. It was originally developed in the Computer Science Laboratory at the Swedish Telecom company Ericsson.</p>
+
+
+	<p>Erlang is about:</p>
+
+
+	<ul>
+	<li>Concurrency</li>
+		<li>Distribution</li>
+		<li>Fault tolerance</li>
+		<li>Functional programming</li>
+		<li>Speeding up applications on multi-core CPUs</li>
+	</ul>
+
+</div><div class="chapter"><h2 id="getting-started">Getting Started</h2>
+
+
+	<h3 id="installing-mac-os-x">Installing (Mac <span class="caps">OS X</span>)</h3>
+
+
+	<p>Make sure you have XCode installed. Download the most recent Erlang source code from <a href="http://www.erlang.org/download.html">http://www.erlang.org/download.html</a>.</p>
+
+
+<pre class="mac_classic plain_text">wget -c http://www.erlang.org/download/otp_src_R12B-5.tar.gz
+tar -xzf otp_src_R12B-5.tar.gz
+cd opt_src_R12B-5
+./configure --prefix=/usr/local
+make
+sudo make install
+</pre>
+
+
+	<h3 id="starting-the-shell">Starting the shell</h3>
+
+
+	<p>Codes can be typed right into the <strong>shell</strong>; to start it, just execute the command <code>erl</code>.</p>
+
+
+<pre class="mac_classic plain_text">$ erl 
+Erlang (BEAM) emulator version 5.5.1 [source] [async-threads:0] [hipe] 
+Eshell V5.5.1 (abort with ^G)
+</pre>
+
+
+	<p>Only expressions can be executed; you can&#8217;t type things started by hyphens (such as <code>-module</code> or <code>-export</code>).</p>
+
+
+	<h4 id="about-shell">About shell</h4>
+
+
+	<p>The Erlang shell has a built-in line editor.</p>
+
+
+<pre class="mac_classic plain_text">Command                 Description
+--------------------------------------------------------
+Ctrl+A                  Beginning of line
+Ctrl+E                  End of line
+Ctrl+F or right arrow   Forward character
+Ctrl+B or left arrow    Backward character
+Ctrl+P or up arrow      Previous line
+Ctrl+N or down arrow    Next line
+Ctrl+T                  Switch last two characters
+Tab                     Expand module or function name
+</pre>
+
+
+	<p>When isn&#8217;t responding, type <code>Ctrl+G</code>; you can then type some commands. Type <code>h</code> to view the available options.</p>
+
+
+<pre class="mac_classic plain_text">$ erl
+Erlang (BEAM) emulator version 5.6.5 [source] [smp:2] [async-threads:0] [kernel-poll:false]
+
+Eshell V5.6.5  (abort with ^G)
+1&gt;
+^G
+User switch command
+ --&gt; h
+  c [nn]            - connect to job
+  i [nn]            - interrupt job
+  k [nn]            - kill job
+  j                 - list all jobs
+  s [shell]         - start local shell
+  r [node [shell]]  - start remote shell
+  q                 - quit erlang
+  ? | h             - this message
+</pre>
+
+
+	<p>To clear all variable bindings, just execute the command <code>f()</code>.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; X = 1.
+1
+2&gt; X = 2.
+**exception error: no match of right hand side value 2
+3&gt; f().
+ok
+4&gt; X = 2.
+2
+</pre>
+
+
+	<p>You can clear a specific variable binding:</p>
+
+
+<pre class="mac_classic plain_text">5&gt; f(X).
+6&gt; X.
+*1: variable 'X' is unbound
+</pre>
+
+
+	<h3 id="simple-expressions">Simple expressions</h3>
+
+
+<pre class="mac_classic plain_text">1&gt; 1 + 1.
+2
+2&gt; (3 + 2) * 4.
+20
+</pre>
+
+
+	<p class="note">The dialog starts with <code>&gt;1</code>; this means that a new Erlang shell has been started. When an expression has been finished, the
+dialog will be increased (like <code>2&gt;</code> and so on).</p>
+
+
+	<p>Calculation with large numbers:</p>
+
+
+<pre class="mac_classic plain_text">3&gt; 1234567890 * 987654321 * 9192939495969798.
+11209193004028605797078206136056620
+</pre>
+
+
+	<p>Integers using base 16 and base 32 notation:</p>
+
+
+<pre class="mac_classic plain_text">4&gt; 16#cafe * 32#sugar.
+1577682511434
+</pre>
+
+
+	<h3 id="variables">Variables</h3>
+
+
+	<p>Variables must start with an uppercase letter.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; X = 1.
+1
+2&gt; Name = &quot;Nando Vieira&quot;.
+&quot;Nando Vieira&quot;
+</pre>
+
+
+	<p>Erlang has <strong>single assignment variables</strong>; this means that you can set the value once, changing from being <strong>unbound</strong> to <strong>having a value</strong>.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; X = 1.
+1
+2&gt; X = 2.
+**exception error: no match of right hand side value 2
+</pre>
+
+
+	<p>The <code>=</code> sign is a <strong>pattern matching</strong> operator, which behaves like assignment when you have an unbound variable.</p>
+
+
+	<p>The <strong>scope</strong> of a variable is the place where it was set. If <code>X</code> is used inside a function, then this function is its scope. If <code>X</code> 
+occurs in different function, the all the values of <code>X</code> are different.</p>
+
+
+	<h4 id="pattern-matching">Pattern Matching</h4>
+
+
+	<p>In Erlang, <code>=</code> denotes a <strong>pattern matching</strong>; <code>Lhs = Rhs</code> means: evaluate the right side (<code>Rhs</code>) and then match the result against
+the pattern on the left side (<code>Lhs</code>).</p>
+
+
+	<p>A variable, such as <code>X</code>, is a simple form of pattern. The first time a variable is assigned, as in <code>X = SomeExpression</code>, Erlang binds
+<code>X</code> to the value of <code>SomeExpression</code>, so the statement becomes valid. The expression <code>X = AnotherExpression</code> will succeed only if
+<code>SomeExpression</code> and <code>AnotherExpression</code> are identical.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; X = (2+4).
+6
+2&gt; Y = 10.
+10
+3&gt; X = 6.
+6
+4&gt; X = Y.
+**exception error: no match of right hand side value 10
+5&gt; Y = 10.
+10
+6&gt; Y = 4.
+**exception error: no match of right hand side value 4
+7&gt; Y = X.
+**exception error: no match of right hand side value 6
+</pre>
+
+
+	<p>The expression <code>2+4</code> was assigned to <code>X</code>, and the answer was <code>6</code>. Then <code>10</code> was assigned to <code>Y</code>. When we try to evaluate <code>X = Y</code>, 
+the match fails and then error message is printed.</p>
+
+
+	<h3 id="floating-point-numbers">Floating-Point Numbers</h3>
+
+
+<pre class="mac_classic plain_text">1&gt; 5/3.
+1.6666666666666667
+2&gt; 5 div 2.
+2
+3&gt; 5 rem 3.
+2
+4&gt; 4/2.
+2.0
+5&gt; Pi = 3.14159.
+3.14159
+6&gt; R = 5.
+5
+7&gt; Pi * R * R.
+78.53975
+</pre>
+
+
+	<p>On Erlang, the operator <code>/</code> always returns a float. Floating-point numbers must have a decimal point followed by at least one digit. The
+expressions <code>N div M</code> and <code>N rem M</code> are used for integer division and remainder.</p>
+
+
+	<h3 id="atoms">Atoms</h3>
+
+
+	<p><strong>Atoms</strong> are constants that represents non-numerical values like <code>true</code>, <code>false</code>, <code>ok</code> and <code>error</code>; they&#8217;re similar to Ruby&#8217;s symbols. 
+They&#8217;re started by lowercase letters, followed by alphanumeric characters, underscore or at sign, like <code>december</code>, <code>test123</code>, 
+<code>some@host</code>, <code>a_long_name</code>. Atoms can also be quoted with a single quotation mark; then you can create atoms like <code>'Name'</code>, <code>'+'</code>,
+<code>'*'</code>, <code>'an atom with spaces'</code>, <code>'name'</code>.</p>
+
+
+	<p>The value of an atom is the atom itself, which will be printed on the shell.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; name.
+name
+2&gt; name = 'name'.
+name
+</pre>
+
+
+	<h3 id="tuples">Tuples</h3>
+
+
+	<p><strong>Tuples</strong> are immutable lists. They&#8217;re used to group a fixed number of items into a single entity. Tuples doesn&#8217;t have keys, so is 
+recommended to use an atom as the first element, describing the tuple.
+
+<pre class="mac_classic erlang"><span class="Variable">P</span> <span class="Keyword">=</span> {<span class="UserDefinedConstant">person</span>,
+        {<span class="UserDefinedConstant">name</span>, <span class="String"><span class="String">&quot;</span>Nando Vieira<span class="String">&quot;</span></span>}
+        {<span class="UserDefinedConstant">blog</span>, <span class="String"><span class="String">&quot;</span>http://simplesideias.com.br<span class="String">&quot;</span></span>}}.
+</pre>
+</p>
+
+
+	<h4 id="extracting-values-from-tuples">Extracting values from tuples</h4>
+
+
+	<p>To extract values from tuples you need to do pattern matching. Let&#8217;s extract the name and blog values.</p>
+
+
+<pre class="mac_classic erlang">{<span class="Variable">_</span>, {<span class="Variable">_</span>, <span class="Variable">Name</span>}, {<span class="Variable">_</span>, <span class="Variable">Blog</span>}} <span class="Keyword">=</span> <span class="Variable">P</span>.
+</pre>
+
+
+	<p>The <code>_</code> symbol is called <strong>anonymous variable</strong>; you can have several occurrences of it in the same pattern.</p>
+
+
+	<h3 id="lists">Lists</h3>
+
+
+	<p><strong>Lists</strong> can store variable number of items. The first element of a list is called <strong>head</strong>. If you remove the <strong>head</strong> from the list, you 
+have the <strong>tail</strong> of the list; that is, the remaining items. Here&#8217;s what a list looks like:
+
+<pre class="mac_classic erlang"><span class="Variable">ThingsToBuy</span> <span class="Keyword">=</span> [{<span class="UserDefinedConstant">apples</span>, <span class="Number">10</span>}, {<span class="UserDefinedConstant">pears</span>, <span class="Number">6</span>}, {<span class="UserDefinedConstant">milk</span>, <span class="Number">3</span>}].
+</pre>
+</p>
+
+
+	<p>If <code>T</code> (tail) is a list, then <code>H|T</code> (head and tail) is also a list. The vertical bar <code>|</code> separates the head from its tail. When creating
+lists like <code>[...|T]</code>, make sure you create <strong>properly formed</strong> lists; that is, <code>T</code> needs to be a list. Otherwise you&#8217;ll have a
+<strong>improper list</strong> that won&#8217;t work for most library functions.</p>
+
+
+	<p>You can add more elements to the list with the syntax <code>[E1, E2, ..., En|T]</code>.</p>
+
+
+<pre class="mac_classic erlang"><span class="Variable">ThingsToBuy</span> <span class="Keyword">=</span> [{<span class="UserDefinedConstant">apples</span>, <span class="Number">10</span>}, {<span class="UserDefinedConstant">pears</span>, <span class="Number">6</span>}, {<span class="UserDefinedConstant">milk</span>, <span class="Number">3</span>}].
+<span class="Variable">ThingsToBuy1</span> <span class="Keyword">=</span> [{<span class="UserDefinedConstant">oranges</span>, <span class="Number">12</span>}, {<span class="UserDefinedConstant">newspaper</span>, <span class="Number">1</span>}|<span class="Variable">ThingsToBuy</span>]
+</pre>
+
+
+	<h4 id="extracting-elements-from-a-list">Extracting elements from a list</h4>
+
+
+	<p>As always, you need to do some pattern matching operation.</p>
+
+
+<pre class="mac_classic erlang"><span class="Variable">ThingsToBuy</span> <span class="Keyword">=</span> [{<span class="UserDefinedConstant">apples</span>, <span class="Number">10</span>}, {<span class="UserDefinedConstant">pears</span>, <span class="Number">6</span>}, {<span class="UserDefinedConstant">milk</span>, <span class="Number">3</span>}].
+[<span class="Variable">Apples</span>|<span class="Variable">RemainingThingsToBuy</span>] <span class="Keyword">=</span> <span class="Variable">ThingsToBuy</span>.
+</pre>
+
+
+	<p>The matching above will bind <code>Apples =&gt; {apples, 10}</code> and <code>RemainingThingsToBuy =&gt; [{milk, 3}, {pears, 6}]</code>.</p>
+
+
+	<p>You can extract several values at once and set a new variable with the remaining items.</p>
+
+
+<pre class="mac_classic erlang"><span class="Variable">ThingsToBuy</span> <span class="Keyword">=</span> [{<span class="UserDefinedConstant">apples</span>, <span class="Number">10</span>}, {<span class="UserDefinedConstant">pears</span>, <span class="Number">6</span>}, {<span class="UserDefinedConstant">milk</span>, <span class="Number">3</span>}, {<span class="UserDefinedConstant">newspaper</span>, <span class="Number">1</span>}].
+[<span class="Variable">Buy1</span>, <span class="Variable">Buy2</span>|<span class="Variable">RemainingThingsToBuy</span>] <span class="Keyword">=</span> <span class="Variable">ThingsToBuy</span>.
+</pre>
+
+
+	<p>Now, <code>Buy1 =&gt; {apples, 10}</code>, <code>Buy2 =&gt; {pears, 6}</code> and <code>RemainingThingsToBuy =&gt; [{milk, 3}, {newspaper, 1}]</code>.</p>
+
+
+	<h3 id="strings">Strings</h3>
+
+
+	<p><strong>Strings</strong> are just a list of integers quoted with <code>"</code>. Here&#8217;s a sample:
+
+<pre class="mac_classic plain_text">1&gt; Name = &quot;Nando Vieira&quot;.
+&quot;Nando Vieira&quot; 
+2&gt; NickName = [102, 110, 97, 110, 100, 111].
+&quot;fnando&quot; 
+3&gt; [1, 2, 3].
+[1,2,3]
+</pre>
+</p>
+
+
+	<p>The third expression was printed as it is because <code>1</code>, <code>2</code> and <code>3</code> are not printable characters. To know which integer represents a 
+character, just use the <code>$</code> symbol like in <code>$a</code>.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; $a.
+97
+2&gt; $A.
+65
+</pre>
+
+
+	<p>If you mix printable with non-printable characters, Erlang won&#8217;t convert the list.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; [$a, 1].
+[97,1]
+</pre>
+
+
+	<p class="note">In Erlang, remember that single quoted strings are just <strong>atoms</strong>; so <code>'a'</code> is not <code>"a"</code>.</p>
+
+
+	<p>You can even use a different character set in strings. The Swedish name <code>Håkan</code> will be encoded as <code>[72,229,107,97,110]</code>.</p>
+
+
+	<h3 id="comments">Comments</h3>
+
+
+	<p>Comments in Erlang start with <code>%</code> and extend to the end of the line. There are no block comments.</p>
+
+
+<pre class="mac_classic erlang"><span class="Comment"><span class="Comment">%</span> this is just a comment</span>
+<span class="Variable">X</span> <span class="Keyword">=</span> <span class="String"><span class="String">&quot;</span>Some string<span class="String">&quot;</span></span>.
+</pre>
+
+
+	<p>Sometimes <code>%%</code> is used to comment out the code; this is recognized by Emacs and enable the automatic indentation of commented lines.</p>
+
+</div><div class="chapter"><h2 id="sequential-programming">Sequential Programming</h2>
+
+
+	<h3 id="modules">Modules</h3>
+
+
+	<p><strong>Modules</strong> store all the functions you write and need to be saved in <code>.erl</code> files. All modules need to be compiled to &#8217;.beam&#8217;<span class="footnote">Beam is short for Bogdan’s Erlang Abstract Machine; Bogumil (Bogdan) Hausman wrote an Erlang compiler in 1993 and designed 
+a new instruction set for Erlang.</span> files before you can use it.</p>
+
+
+	<p>Create a new file <code>geometry.erl</code>.</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">geometry</span>).
+-<span class="Keyword">export</span> ([<span class="FunctionName">area</span>/<span class="Number">1</span>]).
+
+<span class="FunctionName">area</span>({<span class="UserDefinedConstant">rectangle</span>, <span class="Variable">Width</span>, <span class="Variable">Height</span>})  -&gt; <span class="Variable">Width</span> <span class="Keyword">*</span> <span class="Variable">Height</span>;
+<span class="FunctionName">area</span>({<span class="UserDefinedConstant">circle</span>, <span class="Variable">Radius</span>})            -&gt; <span class="Number">3<span class="Number">.</span>14159</span> <span class="Keyword">*</span> <span class="Variable">Radius</span> <span class="Keyword">*</span> <span class="Variable">Radius</span>.
+</pre>
+
+
+	<p>The keyword <code>module</code> defines a new module named <code>geometry</code>. The <code>export</code> clause says what functions are being exported; the <code>[area/1]</code> 
+notation defines the function name and how many arguments are expected (<em>arity</em>). To export several functions, you can do this:</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">some_module</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">func1</span>/<span class="Number">1</span>]).
+-<span class="Keyword">export</span>([<span class="FunctionName">func2</span>/<span class="Number">1</span>]).
+</pre>
+
+
+	<p>Or this:</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">some_module</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">func1</span>/<span class="Number">1</span>, <span class="FunctionName">func2</span>/<span class="Number">1</span>]).
+</pre>
+
+
+	<p>If you want to export all module functions, you can use <code>-compile (export_all)</code>.</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">some_module</span>).
+-<span class="Keyword">compile</span> (<span class="UserDefinedConstant">export_all</span>).
+</pre>
+
+
+	<p>The <code>area</code> keyword defines the function name. In the example above we have two <code>area</code> <em>clauses</em>; think of it as 
+<a href="http://en.wikipedia.org/wiki/Method_overriding_(programming">method overriding</a>) based on pattern matching. Clauses must be 
+separated by semicolons (<code>;</code>), and the final clause must be terminated by a dot-whitespace.</p>
+
+
+	<p class="review">Convert &#8220;Method Overriding&#8221; link to TinyURL</p>
+
+
+	<p>Let&#8217;s try it out. From the shell, execute the command <code>c(geometry)</code>. You&#8217;ll probably receive this error:</p>
+
+
+<pre class="mac_classic plain_text">1&gt; c(geometry).
+./geometry.erl:none: no such file or directory
+error
+</pre>
+
+
+	<p>This error will occur if you&#8217;re trying to compile a module but the file is not present; you must be in the wrong directory or the file 
+hasn&#8217;t been created yet. Check the current directory with <code>pwd()</code>.</p>
+
+
+<pre class="mac_classic plain_text">1&gt; pwd().
+/Users/fnando
+ok
+</pre>
+
+
+	<p>You can quit the shell and go to the source directory, or you can execute <code>cd(&lt;path&gt;)</code>.</p>
+
+
+<pre class="mac_classic plain_text">2&gt; cd(&quot;/Users/fnando/Sites/github/notes/erlang/code&quot;).
+/Users/fnando/Sites/github/notes/erlang/code
+ok
+</pre>
+
+
+	<p>Try to compile the module once again.</p>
+
+
+<pre class="mac_classic plain_text">3&gt; c(geometry).
+{ok,geometry}
+</pre>
+
+
+	<p>The compiler has returned <code>{ok, geometry}</code>, which means that the compiler has succeed and the module <code>geometry</code> has been compiled and
+loaded. You can now execute the functions you created:</p>
+
+
+<pre class="mac_classic plain_text">4&gt; geometry:area({rectangle, 10, 5}).
+50
+5&gt; geometry:area({circle, 6}).       
+113.09723999999999
+</pre>
+
+
+	<p>Let&#8217;s extend our module by adding a square to our geometry module.</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">geometry</span>).
+-<span class="Keyword">export</span> ([<span class="FunctionName">area</span>/<span class="Number">1</span>]).
+
+<span class="FunctionName">area</span>({<span class="UserDefinedConstant">rectangle</span>, <span class="Variable">Width</span>, <span class="Variable">Height</span>})  -&gt; <span class="Variable">Width</span> <span class="Keyword">*</span> <span class="Variable">Height</span>;
+<span class="FunctionName">area</span>({<span class="UserDefinedConstant">circle</span>, <span class="Variable">Radius</span>})            -&gt; <span class="Number">3<span class="Number">.</span>14159</span> <span class="Keyword">*</span> <span class="Variable">Radius</span> <span class="Keyword">*</span> <span class="Variable">Radius</span>;
+<span class="FunctionName">area</span>({<span class="UserDefinedConstant">square</span>, <span class="Variable">X</span>})                 -&gt; <span class="Variable">X</span> <span class="Keyword">*</span> <span class="Variable">X</span>.
+</pre>
+
+
+	<p>The order of the clauses doesn&#8217;t matter; this is possible only because the patterns are mutually exclusive. Remember to set the correct
+order you expect to be executed when you cannot create exclusive patterns.</p>
+
+
+	<h3 id="back-to-shopping">Back to Shopping</h3>
+
+
+	<p>Let&#8217;s go back to the shopping list below:</p>
+
+
+<pre class="mac_classic erlang">[{<span class="UserDefinedConstant">oranges</span>,<span class="Number">4</span>}, {<span class="UserDefinedConstant">newspaper</span>,<span class="Number">1</span>}, {<span class="UserDefinedConstant">apples</span>,<span class="Number">10</span>}, {<span class="UserDefinedConstant">pears</span>,<span class="Number">6</span>} ,{<span class="UserDefinedConstant">milk</span>,<span class="Number">3</span>}]
+</pre>
+
+
+	<p>Suppose we&#8217;d like to calculate total price. Create the module <code>shop</code> for this.</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">shop</span>).
+-<span class="Keyword">export</span> ([<span class="FunctionName">cost</span>/<span class="Number">1</span>]).
+
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">oranges</span>)     -&gt; <span class="Number">2</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">newspaper</span>)   -&gt; <span class="Number">3</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">apples</span>)      -&gt; <span class="Number">4</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">pears</span>)       -&gt; <span class="Number">5</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">milk</span>)        -&gt; <span class="Number">6</span>.
+</pre>
+
+
+	<p>The function <code>cost</code> is composed by 5 clauses. Let&#8217;s test it:</p>
+
+
+<pre class="mac_classic plain_text">1&gt; c(shop).
+{ok,shop}
+2&gt; shop:cost(oranges).
+5
+3&gt; shop:cost(apples).
+2
+4&gt; shop:cost(xbox360).
+**exception error: no function clause matching shop:cost(xbox360)
+</pre>
+
+
+	<p>Now, we need to calculate the total price from a given list. Here&#8217;s how you can create the <code>total</code> function. Add the code below to the 
+<code>shop.erl</code> file.</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">shop</span>).
+-<span class="Keyword">export</span> ([<span class="FunctionName">cost</span>/<span class="Number">1</span>]).
+-<span class="Keyword">export</span> ([<span class="FunctionName">total</span>/<span class="Number">1</span>]).
+
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">oranges</span>)     -&gt; <span class="Number">2</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">newspaper</span>)   -&gt; <span class="Number">3</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">apples</span>)      -&gt; <span class="Number">4</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">pears</span>)       -&gt; <span class="Number">5</span>;
+<span class="FunctionName">cost</span>(<span class="UserDefinedConstant">milk</span>)        -&gt; <span class="Number">6</span>.
+
+<span class="FunctionName">total</span>([])         -&gt; <span class="Number">0</span>;
+<span class="FunctionName">total</span>([{<span class="Variable">Product</span>, <span class="Variable">Quantity</span>}|<span class="Variable">T</span>]) -&gt;
+  <span class="FunctionName">cost</span>(<span class="Variable">Product</span>) <span class="Keyword">*</span> <span class="Variable">Quantity</span> <span class="Keyword">+</span> <span class="FunctionName">total</span>(<span class="Variable">T</span>).
+</pre>
+
+
+	<p>The <code>total</code> function expects a list as argument; if an empty list is provided, then we return <code>0</code>; otherwise we retrieve the first
+product tuple, do some basic calculation (<code>cost(Product) * Quantity</code>) and sum the total from the remaining items (tail).</p>
+
+
+	<p>Recompile the <code>shop</code> module and calculate a shopping list:</p>
+
+
+<pre class="mac_classic plain_text">1&gt; c(shop).
+{ok,shop}
+2&gt; Buy = [{apples, 2}, {newspaper, 1}, {milk, 3}].
+[{apples,3},{newspaper,4},{milk,5}]
+3&gt; shop:total(Buy).
+29
+</pre>
+
+
+	<h3 id="functions-with-the-same-name-and-different-arity">Functions with the same name and different arity</h3>
+
+
+	<p>The <strong>arity</strong> of a function is the number of arguments that the function expects. In Erlang, functions with the same name but different
+arity are <strong>entirely</strong> different. This is what Erlang programmers do to create <strong>auxiliary functions</strong>. Create a new file named <code>misc.erl</code>.</p>
+
+
+<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">misc</span>).
+-<span class="Keyword">export</span> ([<span class="FunctionName">sum</span>/<span class="Number">1</span>]).
+
+<span class="Comment"><span class="Comment">%</span> main function</span>
+<span class="FunctionName">sum</span>(<span class="Variable">L</span>)  -&gt; <span class="FunctionName">sum</span>(<span class="Variable">L</span>, <span class="Number">0</span>).
+
+<span class="Comment"><span class="Comment">%</span> auxiliary functions</span>
+<span class="FunctionName">sum</span>([], <span class="Variable">N</span>)      -&gt; <span class="Variable">N</span>;
+<span class="FunctionName">sum</span>([<span class="Variable">H</span>|<span class="Variable">T</span>], <span class="Variable">N</span>)   -&gt; <span class="FunctionName">sum</span>(<span class="Variable">T</span>, <span class="Variable">H</span><span class="Keyword">+</span><span class="Variable">N</span>).
+</pre>
+
+
+	<p>Note that we are exporting only the function <code>sum(L)</code>.</p>
+
+
+	<h3 id="funs">Funs</h3>
+
+
+	<p><strong>Funs</strong> are just anonymous functions.
+
+<pre class="mac_classic plain_text">1&gt; Double = fun(X) -&gt; 2*X end.
+#Fun&lt;erl_eval.6.13229925&gt;
+2&gt; Double(3).
+6
+3&gt; Double().
+**exception error: interpreted function with arity 1 called with no arguments
+</pre>
+</p>
+
+
+	<p>They can have any number of arguments.</p>
+
+
+<pre class="mac_classic plain_text">4&gt; UserInfo = fun(Name, Age) -&gt; io:format(&quot;~s has ~p years-old~n&quot;, [Name, Age]) end.
+#Fun&lt;erl_eval.12.113037538&gt;
+5&gt; UserInfo(&quot;fnando&quot;, 29).
+fnando has 29 years-old
+ok
+</pre>
+
+
+	<p>They can have multiple clauses.</p>
+
+
+<pre class="mac_classic plain_text">6&gt; Temp =     fun({c, C}) -&gt; {f, 32 + C*9/5};
+6&gt;               ({f, F}) -&gt; {c, (F-32)*5/9}
+6&gt;            end.
+7&gt; Temp({c, 33}).  % from C to F
+8&gt; Temp({f, 115}). % from F to C
+</pre>
+
+
+	<p>Functions can accept funs as arguments or return funs as result. They&#8217;re called <strong>higher-order functions</strong>.</p>
+
+
+	<h4 id="functions-that-accept-funs-as-arguments">Functions that accept funs as arguments</h4>
+
+
+	<p>The standard library <code>lists</code> have many functions whose arguments are funs. Here&#8217;s a example using the function <code>lists:map</code>:</p>
+
+
+<pre class="mac_classic plain_text">1&gt; Double = fun(N) -&gt; N * 2 end.
+#Fun&lt;erl_eval.6.13229925&gt;
+2&gt; lists:map(Double, [1,2,3,4,5]).
+[2,4,6,8,10]
+</pre>
+
+
+	<p>Here&#8217;s another example using the function <code>lists:filter</code>:</p>
+
+
+<pre class="mac_classic plain_text">1&gt; Even = fun(N) -&gt; (N rem 2) =:= 0 end.
+#Fun&lt;erl_eval.6.13229925&gt;
+2&gt; Even(1).
+false
+3&gt; Even(2).
+true
+4&gt; lists:map(Even, [1,2,3,4,5]).
+[false,true,false,true,false]
+5&gt; lists:filter(Even, [1,2,3,4,5,6]).
+[2,4,6]
+</pre>
+
+
+	<h4 id="functions-that-return-funs">Functions that return funs</h4>
+
+
+	<p>Functions can also return <em>funs</em>.</p>
+
+
+<pre class="mac_classic erlang"><span class="Variable">Fruits</span> <span class="Keyword">=</span> [<span class="UserDefinedConstant">apple</span>, <span class="UserDefinedConstant">pear</span>, <span class="UserDefinedConstant">orange</span>].
+<span class="Variable">MakeTest</span> <span class="Keyword">=</span> <span class="Keyword">fun</span>(<span class="Variable">L</span>) -&gt; (<span class="Keyword">fun</span>(<span class="Variable">X</span>) -&gt; <span class="TypeName">lists</span>:<span class="FunctionName">member</span>(<span class="Variable">X</span>, <span class="Variable">L</span>) <span class="Keyword">end</span>) <span class="Keyword">end</span>.
+<span class="Variable">IsFruit</span> <span class="Keyword">=</span> <span class="Variable">MakeTest</span>(<span class="Variable">Fruits</span>).     <span class="Comment"><span class="Comment">%</span> #Fun&lt;erl_eval.6.13229925&gt;</span>
+<span class="Variable">IsFruit</span>(<span class="UserDefinedConstant">lemon</span>).                 <span class="Comment"><span class="Comment">%</span> false</span>
+<span class="Variable">IsFruit</span>(<span class="UserDefinedConstant">orange</span>).                <span class="Comment"><span class="Comment">%</span> true</span>
+</pre>
+
+</div>
+		</div>		
+	</body>
+</html>

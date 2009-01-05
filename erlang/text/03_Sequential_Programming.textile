@@ -1,0 +1,219 @@
+h2. Sequential Programming
+
+h3. Modules
+
+*Modules* store all the functions you write and need to be saved in @.erl@ files. All modules need to be compiled to '.beam'
+%{Beam is short for Bogdan’s Erlang Abstract Machine; Bogumil (Bogdan) Hausman wrote an Erlang compiler in 1993 and designed 
+a new instruction set for Erlang.} files before you can use it.
+
+Create a new file @geometry.erl@.
+	
+	syntax(erlang). -module (geometry).
+	-export ([area/1]).
+	__
+	area({rectangle, Width, Height})  -> Width * Height;
+	area({circle, Radius})            -> 3.14159 * Radius * Radius. 
+	
+	
+The keyword @module@ defines a new module named @geometry@. The @export@ clause says what functions are being exported; the @[area/1]@ 
+notation defines the function name and how many arguments are expected (_arity_). To export several functions, you can do this:
+
+	syntax(erlang). -module (some_module).
+	-export([func1/1]).
+	-export([func2/1]).
+
+Or this:
+
+	syntax(erlang). -module (some_module).
+	-export([func1/1, func2/1]).
+
+If you want to export all module functions, you can use @-compile (export_all)@.
+
+	syntax(erlang). -module (some_module).
+	-compile (export_all).
+
+The @area@ keyword defines the function name. In the example above we have two @area@ _clauses_; think of it as 
+"method overriding":http://en.wikipedia.org/wiki/Method_overriding_(programming) based on pattern matching. Clauses must be 
+separated by semicolons (@;@), and the final clause must be terminated by a dot-whitespace.
+
+p(review). Convert "Method Overriding" link to TinyURL
+
+Let's try it out. From the shell, execute the command @c(geometry)@. You'll probably receive this error:
+
+	pre. 1> c(geometry).
+	./geometry.erl:none: no such file or directory
+	error
+
+This error will occur if you're trying to compile a module but the file is not present; you must be in the wrong directory or the file 
+hasn't been created yet. Check the current directory with @pwd()@.
+
+	pre. 1> pwd().
+	/Users/fnando
+	ok
+   
+You can quit the shell and go to the source directory, or you can execute @cd(<path>)@.
+
+	pre. 2> cd("/Users/fnando/Sites/github/notes/erlang/code").
+	/Users/fnando/Sites/github/notes/erlang/code
+	ok
+
+Try to compile the module once again.
+
+	pre. 3> c(geometry).
+	{ok,geometry}
+
+The compiler has returned @{ok, geometry}@, which means that the compiler has succeed and the module @geometry@ has been compiled and
+loaded. You can now execute the functions you created:
+
+	pre. 4> geometry:area({rectangle, 10, 5}).
+	50
+	5> geometry:area({circle, 6}).       
+	113.09723999999999
+
+Let's extend our module by adding a square to our geometry module.
+	
+	syntax(erlang). -module (geometry).
+	-export ([area/1]).
+	__
+	area({rectangle, Width, Height})  -> Width * Height;
+	area({circle, Radius})            -> 3.14159 * Radius * Radius;
+	area({square, X})                 -> X * X.
+
+The order of the clauses doesn't matter; this is possible only because the patterns are mutually exclusive. Remember to set the correct
+order you expect to be executed when you cannot create exclusive patterns.
+
+h3. Back to Shopping
+
+Let's go back to the shopping list below:
+
+	syntax(erlang). [{oranges,4}, {newspaper,1}, {apples,10}, {pears,6} ,{milk,3}]
+
+Suppose we'd like to calculate total price. Create the module @shop@ for this.
+	
+	syntax(erlang). -module (shop).
+	-export ([cost/1]).
+	__
+	cost(oranges)     -> 2;
+	cost(newspaper)   -> 3;
+	cost(apples)      -> 4;
+	cost(pears)       -> 5;
+	cost(milk)        -> 6.
+
+The function @cost@ is composed by 5 clauses. Let's test it:
+
+	pre. 1> c(shop).
+	{ok,shop}
+	2> shop:cost(oranges).
+	5
+	3> shop:cost(apples).
+	2
+	4> shop:cost(xbox360).
+	**exception error: no function clause matching shop:cost(xbox360)
+
+Now, we need to calculate the total price from a given list. Here's how you can create the @total@ function. Add the code below to the 
+@shop.erl@ file.
+	
+	syntax(erlang). -module (shop).
+	-export ([cost/1]).
+	-export ([total/1]).
+	__
+	cost(oranges)     -> 2;
+	cost(newspaper)   -> 3;
+	cost(apples)      -> 4;
+	cost(pears)       -> 5;
+	cost(milk)        -> 6.
+	__
+	total([])         -> 0;
+	total([{Product, Quantity}|T]) ->
+	  cost(Product) * Quantity + total(T).
+
+The @total@ function expects a list as argument; if an empty list is provided, then we return @0@; otherwise we retrieve the first
+product tuple, do some basic calculation (@cost(Product) * Quantity@) and sum the total from the remaining items (tail).
+
+Recompile the @shop@ module and calculate a shopping list:
+
+	pre. 1> c(shop).
+	{ok,shop}
+	2> Buy = [{apples, 2}, {newspaper, 1}, {milk, 3}].
+	[{apples,3},{newspaper,4},{milk,5}]
+	3> shop:total(Buy).
+	29
+
+h3. Functions with the same name and different arity
+
+The *arity* of a function is the number of arguments that the function expects. In Erlang, functions with the same name but different
+arity are *entirely* different. This is what Erlang programmers do to create *auxiliary functions*. Create a new file named @misc.erl@.
+
+	syntax(erlang). -module (misc).
+	-export ([sum/1]).
+	__
+	% main function
+	sum(L)  -> sum(L, 0).
+	__
+	% auxiliary functions
+	sum([], N)      -> N;
+	sum([H|T], N)   -> sum(T, H+N).
+
+Note that we are exporting only the function @sum(L)@.
+
+h3. Funs
+
+*Funs* are just anonymous functions.
+
+	pre. 1> Double = fun(X) -> 2*X end.
+	#Fun<erl_eval.6.13229925>
+	2> Double(3).
+	6
+	3> Double().
+	**exception error: interpreted function with arity 1 called with no arguments
+
+They can have any number of arguments.
+
+	pre. 4> UserInfo = fun(Name, Age) -> io:format("~s has ~p years-old~n", [Name, Age]) end.
+	#Fun<erl_eval.12.113037538>
+	5> UserInfo("fnando", 29).
+	fnando has 29 years-old
+	ok
+
+They can have multiple clauses.
+
+	pre. 6> Temp = 	fun({c, C}) -> {f, 32 + C*9/5};
+	6>			   ({f, F}) -> {c, (F-32)*5/9}
+	6>			end.
+	7> Temp({c, 33}).  % from C to F
+	8> Temp({f, 115}). % from F to C
+
+Functions can accept funs as arguments or return funs as result. They're called *higher-order functions*.
+
+h4. Functions that accept funs as arguments
+
+The standard library @lists@ have many functions whose arguments are funs. Here's a example using the function @lists:map@:
+
+	pre. 1> Double = fun(N) -> N * 2 end.
+	#Fun<erl_eval.6.13229925>
+	2> lists:map(Double, [1,2,3,4,5]).
+	[2,4,6,8,10]
+
+Here's another example using the function @lists:filter@:
+
+	pre. 1> Even = fun(N) -> (N rem 2) =:= 0 end.
+	#Fun<erl_eval.6.13229925>
+	2> Even(1).
+	false
+	3> Even(2).
+	true
+	4> lists:map(Even, [1,2,3,4,5]).
+	[false,true,false,true,false]
+	5> lists:filter(Even, [1,2,3,4,5,6]).
+	[2,4,6]
+
+h4. Functions that return funs
+
+Functions can also return _funs_.
+
+	syntax(erlang). Fruits = [apple, pear, orange].
+	MakeTest = fun(L) -> (fun(X) -> lists:member(X, L) end) end.
+	IsFruit = MakeTest(Fruits).     % #Fun<erl_eval.6.13229925>
+	IsFruit(lemon).                 % false
+	IsFruit(orange).                % true
+

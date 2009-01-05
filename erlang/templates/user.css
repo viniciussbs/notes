@@ -1,0 +1,14 @@
+/* add custom CSS */
+p.review::before { content: "REVIEW: "; font-weight: bold; }
+p.review { color: red; background: yellow; }
+
+p.note::before { 
+	content: "Note: "; 
+	font-weight: bold;
+}
+
+p.note { 
+	background: #FFE640; 
+	display: inline-block;
+	padding: 5pt; 
+}
