@@ -1,5 +1,5 @@
--module (misc).
--export ([sum/1]).
+-module(misc).
+-export([sum/1]).
 
 % main function
 sum(L)  -> sum(L, 0).

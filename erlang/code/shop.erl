@@ -1,6 +1,6 @@
--module (shop).
--export ([cost/1]).
--export ([total/1]).
+-module(shop).
+-export([cost/1]).
+-export([total/1]).
 
 cost(oranges)     -> 2;
 cost(newspaper)   -> 3;

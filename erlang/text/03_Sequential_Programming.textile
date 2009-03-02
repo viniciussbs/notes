@@ -8,8 +8,8 @@ a new instruction set for Erlang.} files before you can use it.
 
 Create a new file @geometry.erl@.
 	
-	syntax(erlang). -module (geometry).
-	-export ([area/1]).
+	syntax(erlang). -module(geometry).
+	-export([area/1]).
 	__
 	area({rectangle, Width, Height})  -> Width * Height;
 	area({circle, Radius})            -> 3.14159 * Radius * Radius. 
@@ -18,19 +18,19 @@ Create a new file @geometry.erl@.
 The keyword @module@ defines a new module named @geometry@. The @export@ clause says what functions are being exported; the @[area/1]@ 
 notation defines the function name and how many arguments are expected (_arity_). To export several functions, you can do this:
 
-	syntax(erlang). -module (some_module).
+	syntax(erlang). -module(some_module).
 	-export([func1/1]).
 	-export([func2/1]).
 
 Or this:
 
-	syntax(erlang). -module (some_module).
+	syntax(erlang). -module(some_module).
 	-export([func1/1, func2/1]).
 
-If you want to export all module functions, you can use @-compile (export_all)@.
+If you want to export all module functions, you can use @-compile(export_all)@.
 
-	syntax(erlang). -module (some_module).
-	-compile (export_all).
+	syntax(erlang). -module(some_module).
+	-compile(export_all).
 
 The @area@ keyword defines the function name. In the example above we have two @area@ _clauses_; think of it as 
 "method overriding":http://rubyurl.com/7Epb based on pattern matching. Clauses must be 
@@ -70,8 +70,8 @@ loaded. You can now execute the functions you created:
 
 Let's extend our module by adding a square to our geometry module.
 	
-	syntax(erlang). -module (geometry).
-	-export ([area/1]).
+	syntax(erlang). -module(geometry).
+	-export([area/1]).
 	__
 	area({rectangle, Width, Height})  -> Width * Height;
 	area({circle, Radius})            -> 3.14159 * Radius * Radius;
@@ -79,6 +79,21 @@ Let's extend our module by adding a square to our geometry module.
 
 The order of the clauses doesn't matter; this is possible only because the patterns are mutually exclusive. Remember to set the correct
 order you expect to be executed when you cannot create exclusive patterns.
+
+h4. Information about the module
+
+When you create a module, the compiler inserts two special functions automatically: @module_info/0@ and @module_info/1@. These functions can be called to retrieve information about the module such as available functions and attributes.
+
+	syntax(erlang). string:module_info().
+	string:module_info(functions).
+
+Check it out the description and available keys:
+
+* @attributes@: Return a list of @{AttributeName, ValueList}@ tuples. This list will be empty if the module has been striped out with "beam_lib":http://erlang.org/doc/man/beam_lib.html#strip-1.
+* @compile@: Return a list of tuples containing information about how the module was compiled. This list will be empty if the module has been striped out with "beam_lib":http://erlang.org/doc/man/beam_lib.html#strip-1.
+* @imports@: Always return an empty list. The imports key may not be supported in future release.
+* @exports@: Return a list of @{Name, Arity}@ tuples with all exported functions in the module.
+* @functions@: Return a list of @{Name, Arity}@ tuples with all functions in the module.
 
 h3. Back to Shopping
 
@@ -88,8 +103,8 @@ Let's go back to the shopping list below:
 
 Suppose we'd like to calculate total price. Create the module @shop@ for this.
 	
-	syntax(erlang). -module (shop).
-	-export ([cost/1]).
+	syntax(erlang). -module(shop).
+	-export([cost/1]).
 	__
 	cost(oranges)     -> 2;
 	cost(newspaper)   -> 3;
@@ -111,9 +126,9 @@ The function @cost@ is composed by 5 clauses. Let's test it:
 Now, we need to calculate the total price from a given list. Here's how you can create the @total@ function. Add the code below to the 
 @shop.erl@ file.
 	
-	syntax(erlang). -module (shop).
-	-export ([cost/1]).
-	-export ([total/1]).
+	syntax(erlang). -module(shop).
+	-export([cost/1]).
+	-export([total/1]).
 	__
 	cost(oranges)     -> 2;
 	cost(newspaper)   -> 3;
@@ -142,8 +157,8 @@ h3. Functions with the same name and different arity
 The *arity* of a function is the number of arguments that the function expects. In Erlang, functions with the same name but different
 arity are *entirely* different. This is what Erlang programmers do to create *auxiliary functions*. Create a new file named @misc.erl@.
 
-	syntax(erlang). -module (misc).
-	-export ([sum/1]).
+	syntax(erlang). -module(misc).
+	-export([sum/1]).
 	__
 	% main function
 	sum(L)  -> sum(L, 0).

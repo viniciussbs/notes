@@ -34,14 +34,14 @@
 				</p>
 			 
 				<p>
-					Version: 2009-01-05
+					Version: 2009-02-17
 				</p>
 			</div>
 		</div>
 		
 		<div id="table_of_contents">
 			<h2>Table of Contents</h2>
-			<ul class="level2"><li><a href="#about-erlang"><span>About Erlang</span></a></li><li><a href="#getting-started"><span>Getting Started</span></a><ul class="level3"><li><a href="#installing-mac-os-x"><span>Installing (Mac </span></a><a href="#installing-mac-os-x"><span>OS X</span></a><a href="#installing-mac-os-x"><span>)</span></a></li><li><a href="#starting-the-shell"><span>Starting the shell</span></a><ul class="level4"><li><a href="#about-shell"><span>About shell</span></a></li></ul></li><li><a href="#simple-expressions"><span>Simple expressions</span></a></li><li><a href="#variables"><span>Variables</span></a><ul class="level4"><li><a href="#pattern-matching"><span>Pattern Matching</span></a></li></ul></li><li><a href="#floating-point-numbers"><span>Floating-Point Numbers</span></a></li><li><a href="#atoms"><span>Atoms</span></a></li><li><a href="#tuples"><span>Tuples</span></a><ul class="level4"><li><a href="#extracting-values-from-tuples"><span>Extracting values from tuples</span></a></li></ul></li><li><a href="#lists"><span>Lists</span></a><ul class="level4"><li><a href="#extracting-elements-from-a-list"><span>Extracting elements from a list</span></a></li></ul></li><li><a href="#strings"><span>Strings</span></a></li><li><a href="#comments"><span>Comments</span></a></li></ul></li><li><a href="#sequential-programming"><span>Sequential Programming</span></a><ul class="level3"><li><a href="#modules"><span>Modules</span></a></li><li><a href="#back-to-shopping"><span>Back to Shopping</span></a></li><li><a href="#functions-with-the-same-name-and-different-arity"><span>Functions with the same name and different arity</span></a></li><li><a href="#funs"><span>Funs</span></a><ul class="level4"><li><a href="#functions-that-accept-funs-as-arguments"><span>Functions that accept funs as arguments</span></a></li><li><a href="#functions-that-return-funs"><span>Functions that return funs</span></a></li></ul></li></ul></li></ul>
+			<ul class="level2"><li><a href="#about-erlang"><span>About Erlang</span></a></li><li><a href="#getting-started"><span>Getting Started</span></a><ul class="level3"><li><a href="#installing-mac-os-x"><span>Installing (Mac </span></a><a href="#installing-mac-os-x"><span>OS X</span></a><a href="#installing-mac-os-x"><span>)</span></a></li><li><a href="#starting-the-shell"><span>Starting the shell</span></a><ul class="level4"><li><a href="#about-shell"><span>About shell</span></a></li></ul></li><li><a href="#simple-expressions"><span>Simple expressions</span></a></li><li><a href="#variables"><span>Variables</span></a><ul class="level4"><li><a href="#pattern-matching"><span>Pattern Matching</span></a></li></ul></li><li><a href="#floating-point-numbers"><span>Floating-Point Numbers</span></a></li><li><a href="#atoms"><span>Atoms</span></a></li><li><a href="#tuples"><span>Tuples</span></a><ul class="level4"><li><a href="#extracting-values-from-tuples"><span>Extracting values from tuples</span></a></li></ul></li><li><a href="#lists"><span>Lists</span></a><ul class="level4"><li><a href="#extracting-elements-from-a-list"><span>Extracting elements from a list</span></a></li></ul></li><li><a href="#strings"><span>Strings</span></a></li><li><a href="#comments"><span>Comments</span></a></li></ul></li><li><a href="#sequential-programming"><span>Sequential Programming</span></a><ul class="level3"><li><a href="#modules"><span>Modules</span></a><ul class="level4"><li><a href="#information-about-the-module"><span>Information about the module</span></a></li></ul></li><li><a href="#back-to-shopping"><span>Back to Shopping</span></a></li><li><a href="#functions-with-the-same-name-and-different-arity"><span>Functions with the same name and different arity</span></a></li><li><a href="#funs"><span>Funs</span></a><ul class="level4"><li><a href="#functions-that-accept-funs-as-arguments"><span>Functions that accept funs as arguments</span></a></li><li><a href="#functions-that-return-funs"><span>Functions that return funs</span></a></li></ul></li></ul></li></ul>
 		</div>
 		
 		<div id="chapters">
@@ -175,7 +175,7 @@ ok
 </pre>
 
 
-	<p class="note">The dialog starts with <code>&gt;1</code>; this means that a new Erlang shell has been started. When an expression has been finished, the
+	<p class="note">The dialog starts with <code>1&gt;</code>; this means that a new Erlang shell has been started. When an expression has been finished, the
 dialog will be increased (like <code>2&gt;</code> and so on).</p>
 
 
@@ -442,8 +442,8 @@ a new instruction set for Erlang.</span> files before you can use it.</p>
 	<p>Create a new file <code>geometry.erl</code>.</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">geometry</span>).
--<span class="Keyword">export</span> ([<span class="FunctionName">area</span>/<span class="Number">1</span>]).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">geometry</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">area</span>/<span class="Number">1</span>]).
 
 <span class="FunctionName">area</span>({<span class="UserDefinedConstant">rectangle</span>, <span class="Variable">Width</span>, <span class="Variable">Height</span>})  -&gt; <span class="Variable">Width</span> <span class="Keyword">*</span> <span class="Variable">Height</span>;
 <span class="FunctionName">area</span>({<span class="UserDefinedConstant">circle</span>, <span class="Variable">Radius</span>})            -&gt; <span class="Number">3<span class="Number">.</span>14159</span> <span class="Keyword">*</span> <span class="Variable">Radius</span> <span class="Keyword">*</span> <span class="Variable">Radius</span>.
@@ -454,7 +454,7 @@ a new instruction set for Erlang.</span> files before you can use it.</p>
 notation defines the function name and how many arguments are expected (<em>arity</em>). To export several functions, you can do this:</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">some_module</span>).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">some_module</span>).
 -<span class="Keyword">export</span>([<span class="FunctionName">func1</span>/<span class="Number">1</span>]).
 -<span class="Keyword">export</span>([<span class="FunctionName">func2</span>/<span class="Number">1</span>]).
 </pre>
@@ -463,16 +463,16 @@ notation defines the function name and how many arguments are expected (<em>arit
 	<p>Or this:</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">some_module</span>).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">some_module</span>).
 -<span class="Keyword">export</span>([<span class="FunctionName">func1</span>/<span class="Number">1</span>, <span class="FunctionName">func2</span>/<span class="Number">1</span>]).
 </pre>
 
 
-	<p>If you want to export all module functions, you can use <code>-compile (export_all)</code>.</p>
+	<p>If you want to export all module functions, you can use <code>-compile(export_all)</code>.</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">some_module</span>).
--<span class="Keyword">compile</span> (<span class="UserDefinedConstant">export_all</span>).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">some_module</span>).
+-<span class="Keyword">compile</span>(<span class="UserDefinedConstant">export_all</span>).
 </pre>
 
 
@@ -531,8 +531,8 @@ loaded. You can now execute the functions you created:</p>
 	<p>Let&#8217;s extend our module by adding a square to our geometry module.</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">geometry</span>).
--<span class="Keyword">export</span> ([<span class="FunctionName">area</span>/<span class="Number">1</span>]).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">geometry</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">area</span>/<span class="Number">1</span>]).
 
 <span class="FunctionName">area</span>({<span class="UserDefinedConstant">rectangle</span>, <span class="Variable">Width</span>, <span class="Variable">Height</span>})  -&gt; <span class="Variable">Width</span> <span class="Keyword">*</span> <span class="Variable">Height</span>;
 <span class="FunctionName">area</span>({<span class="UserDefinedConstant">circle</span>, <span class="Variable">Radius</span>})            -&gt; <span class="Number">3<span class="Number">.</span>14159</span> <span class="Keyword">*</span> <span class="Variable">Radius</span> <span class="Keyword">*</span> <span class="Variable">Radius</span>;
@@ -542,6 +542,29 @@ loaded. You can now execute the functions you created:</p>
 
 	<p>The order of the clauses doesn&#8217;t matter; this is possible only because the patterns are mutually exclusive. Remember to set the correct
 order you expect to be executed when you cannot create exclusive patterns.</p>
+
+
+	<h4 id="information-about-the-module">Information about the module</h4>
+
+
+	<p>When you create a module, the compiler inserts two special functions automatically: <code>module_info/0</code> and <code>module_info/1</code>. These functions can be called to retrieve information about the module such as available functions and attributes.</p>
+
+
+<pre class="mac_classic erlang"><span class="TypeName">string</span>:<span class="FunctionName">module_info</span>().
+<span class="TypeName">string</span>:<span class="FunctionName">module_info</span>(<span class="UserDefinedConstant">functions</span>).
+</pre>
+
+
+	<p>Check it out the description and available keys:</p>
+
+
+	<ul>
+	<li><code>attributes</code>: Return a list of <code>{AttributeName, ValueList}</code> tuples. This list will be empty if the module has been striped out with <a href="http://erlang.org/doc/man/beam_lib.html#strip-1">beam_lib</a>.</li>
+		<li><code>compile</code>: Return a list of tuples containing information about how the module was compiled. This list will be empty if the module has been striped out with <a href="http://erlang.org/doc/man/beam_lib.html#strip-1">beam_lib</a>.</li>
+		<li><code>imports</code>: Always return an empty list. The imports key may not be supported in future release.</li>
+		<li><code>exports</code>: Return a list of <code>{Name, Arity}</code> tuples with all exported functions in the module.</li>
+		<li><code>functions</code>: Return a list of <code>{Name, Arity}</code> tuples with all functions in the module.</li>
+	</ul>
 
 
 	<h3 id="back-to-shopping">Back to Shopping</h3>
@@ -557,8 +580,8 @@ order you expect to be executed when you cannot create exclusive patterns.</p>
 	<p>Suppose we&#8217;d like to calculate total price. Create the module <code>shop</code> for this.</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">shop</span>).
--<span class="Keyword">export</span> ([<span class="FunctionName">cost</span>/<span class="Number">1</span>]).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">shop</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">cost</span>/<span class="Number">1</span>]).
 
 <span class="FunctionName">cost</span>(<span class="UserDefinedConstant">oranges</span>)     -&gt; <span class="Number">2</span>;
 <span class="FunctionName">cost</span>(<span class="UserDefinedConstant">newspaper</span>)   -&gt; <span class="Number">3</span>;
@@ -586,9 +609,9 @@ order you expect to be executed when you cannot create exclusive patterns.</p>
 <code>shop.erl</code> file.</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">shop</span>).
--<span class="Keyword">export</span> ([<span class="FunctionName">cost</span>/<span class="Number">1</span>]).
--<span class="Keyword">export</span> ([<span class="FunctionName">total</span>/<span class="Number">1</span>]).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">shop</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">cost</span>/<span class="Number">1</span>]).
+-<span class="Keyword">export</span>([<span class="FunctionName">total</span>/<span class="Number">1</span>]).
 
 <span class="FunctionName">cost</span>(<span class="UserDefinedConstant">oranges</span>)     -&gt; <span class="Number">2</span>;
 <span class="FunctionName">cost</span>(<span class="UserDefinedConstant">newspaper</span>)   -&gt; <span class="Number">3</span>;
@@ -625,8 +648,8 @@ product tuple, do some basic calculation (<code>cost(Product) * Quantity</code>)
 arity are <strong>entirely</strong> different. This is what Erlang programmers do to create <strong>auxiliary functions</strong>. Create a new file named <code>misc.erl</code>.</p>
 
 
-<pre class="mac_classic erlang">-<span class="Keyword">module</span> (<span class="TypeName">misc</span>).
--<span class="Keyword">export</span> ([<span class="FunctionName">sum</span>/<span class="Number">1</span>]).
+<pre class="mac_classic erlang">-<span class="Keyword">module</span>(<span class="TypeName">misc</span>).
+-<span class="Keyword">export</span>([<span class="FunctionName">sum</span>/<span class="Number">1</span>]).
 
 <span class="Comment"><span class="Comment">%</span> main function</span>
 <span class="FunctionName">sum</span>(<span class="Variable">L</span>)  -&gt; <span class="FunctionName">sum</span>(<span class="Variable">L</span>, <span class="Number">0</span>).

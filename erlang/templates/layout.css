@@ -91,7 +91,10 @@ img {
 	float: right;
 }
 
-p code { 
+p code,
+dl code,
+ul code,
+ol code { 
 	color: #060;
 }
 

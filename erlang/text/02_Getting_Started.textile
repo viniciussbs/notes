@@ -79,7 +79,7 @@ h3. Simple expressions
 	2> (3 + 2) * 4.
 	20
 
-p(note). The dialog starts with @>1@; this means that a new Erlang shell has been started. When an expression has been finished, the
+p(note). The dialog starts with @1>@; this means that a new Erlang shell has been started. When an expression has been finished, the
 dialog will be increased (like @2>@ and so on).
 
 Calculation with large numbers:
